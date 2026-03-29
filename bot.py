@@ -53,29 +53,30 @@ def check_market(context: CallbackContext):
     if brent == 0 or diesel == 0:
         return
 
-    # 🔥 приоритет дизелю
     if last_diesel:
-        change_diesel = ((diesel - last_diesel) / last_diesel) * 100
+        change = ((diesel - last_diesel) / last_diesel) * 100
 
+        # защита от спама (1 раз в час)
         if time.time() - last_alert > 3600:
 
-            if change_diesel > 3:
+            if change > 3:
                 bot.send_message(
                     chat_id=CHAT_ID,
-                    text=f"❗ ДИЗЕЛЬ РАСТЁТ +{change_diesel:.2f}%\nЦена: {diesel}\n👉 Жди рост цен на заправках"
+                    text=f"⛽ ЗАПРАВЬСЯ СЕЙЧАС!\nДизель +{change:.2f}%\nЦена: {diesel}\n👉 скоро подорожает"
                 )
                 last_alert = time.time()
 
-    # нефть — вторично
-    if last_brent:
-        change_brent = ((brent - last_brent) / last_brent) * 100
-
-        if time.time() - last_alert > 3600:
-
-            if change_brent > 4:
+            elif change > 2:
                 bot.send_message(
                     chat_id=CHAT_ID,
-                    text=f"⚠️ Нефть растёт +{change_brent:.2f}%\nЦена: {brent}"
+                    text=f"⚠️ Дизель растёт +{change:.2f}%\nЦена: {diesel}"
+                )
+                last_alert = time.time()
+
+            elif change < -2:
+                bot.send_message(
+                    chat_id=CHAT_ID,
+                    text=f"⛔ Можно подождать\nДизель падает {change:.2f}%\nЦена: {diesel}"
                 )
                 last_alert = time.time()
 
