@@ -4,8 +4,10 @@ from telegram import Bot, Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 from bs4 import BeautifulSoup
 
-TOKEN = "8756944375:AAECsvUrO3QRV8ic1abPuC5KSTY0JTZXiyk"
-CHAT_ID = 935294742
+import os
+
+TOKEN = os.getenv("TOKEN")
+CHAT_ID = int(os.getenv("CHAT_ID"))
 
 bot = Bot(token=TOKEN)
 
