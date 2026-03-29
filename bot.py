@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import os
 
 TOKEN = os.getenv("TOKEN")
-CHAT_ID = int(os.getenv("CHAT_ID"))
+CHAT_ID = 935294742
 
 bot = Bot(token=TOKEN)
 
